@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PokeAPIServiceService } from '../poke-apiservice.service';
 import { Pokemon } from '../pokemon';
-
-
 
 @Component({
   selector: 'app-my-component',
@@ -10,47 +8,64 @@ import { Pokemon } from '../pokemon';
   styleUrls: ['./my-component.component.css'],
   providers: [PokeAPIServiceService]
 })
-export class MyComponentComponent {
-
-  id: string = '';
-  selectedPokeId: string="";
-  selectedPokeName: string="";
+export class MyComponentComponent implements OnInit {
+  id: number = 0;
+  selectedPokeId: string = '';
+  selectedPokeName: string = '';
+  selectedPokeHeight: number = 0;
+  selectedPokeWeight: number = 0;
+  selectedPokeStats: any[] = []; // Ajout d'une propriété pour les statistiques
   searchPokeName: string = '';
-pokes : Pokemon[] = [];
+  
 
+  pokes: Pokemon[] = [];
 
-
-constructor(private pokeService : PokeAPIServiceService) {
-/*this.pokes.push(new Pokemon('1','Bulbasaure'));
-this.pokes.push(new Pokemon('2','Ivysaur'));
-this.pokes.push(new Pokemon('3','Venusaur'));
-this.pokes.push(new Pokemon('4','Charmander'));
-this.pokes.push(new Pokemon('5','Charmeleon'));
-this.pokes.push(new Pokemon('6','Charizard'));
-this.pokes.push(new Pokemon('7','Squirtle'));
-this.pokes.push(new Pokemon('8','Watortle'));
-this.pokes.push(new Pokemon('9','Blastoise'));
-this.pokes.push(new Pokemon('25','Pikachu'));
-*/
-
-
-}
-
-ngOnInit(): void {
-  this.pokeService.getPokemon().subscribe((data) => { 
-    // const res = data.results as any[];
-    data.results.forEach((e, index) => {
-    this.pokes.push(new Pokemon(index.toString() , e.name, e.url));
-    });
+  constructor(private pokeService: PokeAPIServiceService) {
   }
-  );
 
-}
+  ngOnInit(): void {
+    for (let i = 1; i <= 151; i++) {
+      this.pokeService.getPokemon(i).subscribe((data) => {
+        this.pokes.push(data);
+      });
+    }
+  }
+  
+  
 
-go() {
-  console.log(this.selectedPokeId);
+  onSelectedPokeChange(): void {
+    if (this.selectedPokeId) {
+      this.pokeService.getPokemon(parseInt(this.selectedPokeId))
+        .subscribe((data) => {
+          this.selectedPokeName = data.name;
+          this.id = data.id;
+          this.selectedPokeHeight = data.height;
+          this.selectedPokeWeight = data.weight;
+          this.selectedPokeStats = this.getSelectedPokeStats(data);
+        });
+    }
+  }
 
-}
+  go(): void {
+    if (!isNaN(parseInt(this.selectedPokeId))) {
+      const selectedPoke = this.pokes.find((poke) => poke.id === parseInt(this.selectedPokeId));
+      if (selectedPoke) {
+        console.log(selectedPoke.name);
+      }
+    }
+  }
 
+  getSelectedPokeStats(pokeData: any): any[] {
+    const stats = pokeData.stats;
+    const selectedStats = stats.map((stat: any) => {
+      return {
+        name: stat.stat.name,
+        value: stat.base_stat
+      };
+    });
+    return selectedStats;
+  }
 
+  
+  
 }
