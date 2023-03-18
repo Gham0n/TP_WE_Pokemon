@@ -1,0 +1,9 @@
+/*Ces styles ne sont là que pour la présentation*/
+div{
+    padding: 10px;
+  }
+  
+  /*Centre les éléments inline dans les éléments possédant un attribut class="centre"*/
+  .centre{
+    text-align: center;
+  }

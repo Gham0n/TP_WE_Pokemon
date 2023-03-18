@@ -1,0 +1,47 @@
+<BR>
+
+<div class="centre">
+	<br>
+	<!--input [(ngModel)]="id"-->
+	<!--input readonly [(ngModel)]="id"-->
+
+
+
+</div>
+
+<div class="centre">
+	<input  [(ngModel)]="searchPokeName">
+
+	
+	  
+	  
+
+
+</div>
+<div class="centre">
+
+
+
+	<mat-form-field appearance="fill">
+		<mat-label>Click for choose</mat-label>
+		<mat-select [(ngModel)]="selectedPokeId">
+			<mat-option [value]="poke.id"
+				*ngFor="let poke of pokes | filterPokemonPipe:'name':searchPokeName">{{poke.name}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<!--BR>
+	Mon pokemon selectionné est : {{selectedPokeId}}
+<BR-->
+</div>
+
+
+<BR>
+<div class="centre">
+	<button (click)="go()" mat-raised-button>Go !!!</button>
+</div>
+
+<!--ul>
+	<li *ngFor="let poke of pokes">{{poke.name}}</li>
+
+</ul-->
