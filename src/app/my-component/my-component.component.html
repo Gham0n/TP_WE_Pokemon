@@ -1,62 +1,44 @@
 <BR>
-
-	<div class="centre">
-		<br>
-		<!--input [(ngModel)]="id"-->
-		<!--input readonly [(ngModel)]="id"-->
-	
-	
-	
-	</div>
-	
 	<div class="centre">
 		<input  [(ngModel)]="searchPokeName">
-	
 		
-		  
-		  
-	
-	
-	</div>
-	<div class="centre" >
-	
-	
-	
+		
+		
 		<mat-form-field appearance="fill">
-			<mat-label>Click for choose</mat-label>
-			<mat-select [(ngModel)]="selectedPokeId" (ngModelChange)="onSelectedPokeChange()">
-			  <mat-option [value]="poke.id" *ngFor="let poke of pokes | filterPokemonPipe:'name':searchPokeName">{{poke.name}}</mat-option>
-			</mat-select>
-		  </mat-form-field>
-		  
-	
-		<BR>
-		Mon pokemon selectionné est : {{selectedPokeName}}
-		<BR>
+		  <mat-label>Click for choose</mat-label>
+		  <mat-select [(ngModel)]="selectedPokeId" (ngModelChange)="onSelectedPokeChange()">
+			<mat-option [value]="poke.id" *ngFor="let poke of pokes | filterPokemonPipe:'name':searchPokeName">{{poke.name}}</mat-option>
+		  </mat-select>
+		</mat-form-field>
+		
+		
+		  <button (click)="go()" mat-raised-button>Print in console</button>
+		
+		
+		<br>
+		Mon pokemon sélectionné est : <b class="term">{{selectedPokeName}}</b>
+		<br>
 		ID : {{id}}
-		<BR>
+		<br>
 		Poid : {{selectedPokeWeight}}
-		<BR>
+		<br>
 		Taille : {{selectedPokeHeight}}
-
-		<BR>
+	  
 		<ul *ngIf="selectedPokeStats.length > 0" style="list-style-type: style type square;">
 		  <li *ngFor="let stat of selectedPokeStats">
 			{{stat.name}}: {{stat.value}}
 		  </li>
 		</ul>
-		  
-		  
-					
+	  
 		
-	<BR>
-	</div>
+		<img *ngIf="selectedPokeId" [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+ selectedPokeId +'.png'" alt="Pokemon image" style="width: 250px;">
+ 	</div>
+	  
+	 
+
 	
 	
-	<BR>
-	<div class="centre">
-		<button (click)="go()" mat-raised-button>Go !!!</button>
-	</div>
+	
 	
 	<!--ul>
 		<li *ngFor="let poke of pokes">{{poke.name}}</li>
